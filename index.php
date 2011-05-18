@@ -13,7 +13,7 @@
         // add new entry to DB
         $myConnection = mysqli_connect($dbHostname, $dbUser, $dbPwd, $dbName) or generateError(mysqli_error($myConnection));
         
-        $sql = "INSERT INTO `luke` (item, time) VALUES ('{$newItem}', NOW())";
+        $sql = "INSERT INTO `$dbTable` (item, time) VALUES ('{$newItem}', NOW())";
         
         if (!(mysqli_query($myConnection, $sql))) {
             generateError(mysqli_error($myConnection));
@@ -58,7 +58,7 @@
                         require_once('dbconnect.php');
                         $myConnection = mysqli_connect($dbHostname, $dbUser, $dbPwd, $dbName) or generateError(mysqli_error($myConnection));
                         
-                        $select = "SELECT * FROM luke WHERE completed='0' ORDER BY id ASC";
+                        $select = "SELECT * FROM `$dbTable` WHERE completed='0' ORDER BY id ASC";
                         
                         $dbResult = mysqli_query($myConnection, $select) or generateError(mysqli_error($myConnection));
                         

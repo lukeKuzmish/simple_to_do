@@ -3,3 +3,11 @@ simple to do application in PHP
 
 lukekuzmish@gmail.com
 ###########################
+
+USER_NAME.sql -- change the table name to your name.  My name is Luke, so my db name is `luke`
+
+                NOTE: you will have to change this in dbconnect.php as well.
+                
+dbconnect.php -- contains all the database connection information.
+
+                NOTE: you will need to update this for your server

@@ -3,5 +3,6 @@
     $dbPwd      = "pass";
     $dbName     = "std";
     $dbHostname = "localhost";
+    $dbTable    = "luke";
     
 ?>
