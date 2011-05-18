@@ -42,6 +42,27 @@
        #wrapper h1 {
             text-align:     center;
         }
+        
+        #list-of-items {
+            margin:         0 auto;
+            width:          500px;
+        }
+        
+        #toDoItem {
+            width:          350px;
+        }
+        
+        #toDoTime {
+            width:          100px;
+        }
+        
+        #toDoCompleted {
+            width:          50px;
+        }
+        
+        td, th {
+            padding:        10px;
+        }
     </style>
     </head>
     
@@ -54,6 +75,19 @@
             <div id="list-of-items">
             
                 <table>
+                    <colgroup>
+                        <col id="toDoItem" />
+                        <col id="toDoTime" />
+                        <col id="toDoCompleted" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">To-Do</th>
+                            <th scope="col">time entered</th>
+                            <th scope="col">completed?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <?php
                         require_once('dbconnect.php');
                         $myConnection = mysqli_connect($dbHostname, $dbUser, $dbPwd, $dbName) or generateError(mysqli_error($myConnection));
@@ -68,9 +102,9 @@
                          
                         mysqli_close($myConnection);                   
                     ?>
+                    </tbody>
+                </table>
                     
-                    </table>
-                <!-- create list with PHP here -->
             </div>
             <hr />
             <div id="add">
