@@ -12,7 +12,8 @@
     if (isset($_POST['submit'])) {
         // add new entry to DB
         $myConnection = mysqli_connect($dbHostname, $dbUser, $dbPwd, $dbName) or generateError(mysqli_error($myConnection));
-        
+               
+       $newItem = addslashes($newItem); 
         $sql = "INSERT INTO `$dbTable` (item, time) VALUES ('{$newItem}', NOW())";
         
         if (!(mysqli_query($myConnection, $sql))) {
@@ -126,7 +127,7 @@
                             $dbResult = mysqli_query($myConnection, $select) or generateError(mysqli_error($myConnection));
                             
                             while ($row=mysqli_fetch_assoc($dbResult)) {
-                                echo "<tr><td><input type='checkbox' name='arrID[]' value='{$row['id']}' /></td><td>{$row['item']}</td><td>{$row['time']}</td></tr>";
+                                echo "<tr><td><input type='checkbox' name='arrID[]' value='{$row['id']}' /></td><td>".stripslashes($row['item'])."</td><td>{$row['time']}</td></tr>";
                             }
                              
                             mysqli_close($myConnection);                   
