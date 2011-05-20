@@ -11,3 +11,11 @@ USER_NAME.sql -- change the table name to your name.  My name is Luke, so my db 
 dbconnect.php -- contains all the database connection information.
 
                 NOTE: you will need to update this for your server
+                
+                
+                
+                
+TODO:
+    - add a new column for time completed (might be interesting to track
+    - multiple sorting views (view newest, view completed, view all (completed and incomplete)
+    - make the table look nicer

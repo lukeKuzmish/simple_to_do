@@ -18,8 +18,39 @@
         if (!(mysqli_query($myConnection, $sql))) {
             generateError(mysqli_error($myConnection));
         }
-        
     }
+    
+    else if (isset($_POST['addComplete'])) {
+        // completed a list item
+        $aID = $_POST['arrID'];
+        $myConnection = mysqli_connect($dbHostname, $dbUser, $dbPwd, $dbName) or generateError(mysqli_error($myConnection));
+        
+        $aIDCount = count($aID);
+        
+        for ($i=0; $i < $aIDCount; $i++) {
+            $sql = "UPDATE `$dbTable` SET `completed`='1' WHERE `id`='{$aID[$i]}' ";
+            if (!(mysqli_query($myConnection, $sql))) {
+                generateError(mysqli_error($myConnection));
+            }
+        }
+    }
+
+    else if (isset($_POST['delete'])) {
+        // deleting entries
+        $aID = $_POST['arrID'];
+        $myConnection = mysqli_connect($dbHostname, $dbUser, $dbPwd, $dbName) or generateError(mysqli_error($myConnection));
+        
+        $aIDCount = count($aID);
+        
+        for ($i=0; $i < $aIDCount; $i++) {
+            $sql = "DELETE FROM `$dbTable` WHERE `id`='{$aID[$i]}' ";
+            if (!(mysqli_query($myConnection, $sql))) {
+                generateError(mysqli_error($myConnection));
+            }
+        }
+    }
+        
+    
     
     mysqli_close($myConnection);
 ?>
@@ -56,9 +87,6 @@
             width:          100px;
         }
         
-        #toDoCompleted {
-            width:          50px;
-        }
         
         td, th {
             padding:        10px;
@@ -73,38 +101,43 @@
             </div>
             <hr />
             <div id="list-of-items">
-            
-                <table>
-                    <colgroup>
-                        <col id="toDoItem" />
-                        <col id="toDoTime" />
-                        <col id="toDoCompleted" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th scope="col">To-Do</th>
-                            <th scope="col">time entered</th>
-                            <th scope="col">completed?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                        require_once('dbconnect.php');
-                        $myConnection = mysqli_connect($dbHostname, $dbUser, $dbPwd, $dbName) or generateError(mysqli_error($myConnection));
+                <form method="post" action="<?php echo $PHP_SELF;?>">
+                    <table>
+                        <colgroup>
                         
-                        $select = "SELECT * FROM `$dbTable` WHERE completed='0' ORDER BY id ASC";
-                        
-                        $dbResult = mysqli_query($myConnection, $select) or generateError(mysqli_error($myConnection));
-                        
-                        while ($row=mysqli_fetch_assoc($dbResult)) {
-                            echo "<tr><td>{$row['item']}</td><td>{$row['time']}</td><td>{$row['completed']}</td></tr>";
-                        }
-                         
-                        mysqli_close($myConnection);                   
-                    ?>
-                    </tbody>
-                </table>
-                    
+                            <col id="toDoCheck" />
+                            <col id="toDoItem" />
+                            <col id="toDoTime" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">To-Do</th>
+                                <th scope="col">time entered</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            require_once('dbconnect.php');
+                            $myConnection = mysqli_connect($dbHostname, $dbUser, $dbPwd, $dbName) or generateError(mysqli_error($myConnection));
+                            
+                            $select = "SELECT * FROM `$dbTable` WHERE completed='0' ORDER BY id ASC";
+                            
+                            $dbResult = mysqli_query($myConnection, $select) or generateError(mysqli_error($myConnection));
+                            
+                            while ($row=mysqli_fetch_assoc($dbResult)) {
+                                echo "<tr><td><input type='checkbox' name='arrID[]' value='{$row['id']}' /></td><td>{$row['item']}</td><td>{$row['time']}</td></tr>";
+                            }
+                             
+                            mysqli_close($myConnection);                   
+                        ?>
+                        </tbody>
+                    </table>
+                    <div id="checkboxOptions">
+                        <input type="submit" value="Delete" name="delete" />
+                        <input type="submit" value="Mark Complete" name="addComplete" />
+                    </div>
+                </form>
             </div>
             <hr />
             <div id="add">
